@@ -12,6 +12,6 @@ public interface NewsletterService {
     Newsletter saveNewsletter(Newsletter newsletter);
     void deleteNewsletterById(Long id);
     boolean isNewsletterAlreadyExist(String email);
-    int getTotalNewsletterCount();
+    long getTotalNewsletterCount();
     String sendNewsletter(List<Newsletter> newsletter);
 }

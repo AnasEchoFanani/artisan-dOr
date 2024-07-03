@@ -1,8 +1,11 @@
 package com.app.artisandor.services.interfaces;
 
 import com.app.artisandor.entity.Comments;
+import com.app.artisandor.entity.Product;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+
+import java.util.List;
 
 /**
  * This interface defines the contract for the CommentsService.
@@ -40,4 +43,6 @@ public interface CommentsService {
      * @param id The unique identifier of the comment to be deleted.
      */
     void deleteCommentsById(Long id);
+
+    List<Comments> getCommentsByProduct(Product product);
 }

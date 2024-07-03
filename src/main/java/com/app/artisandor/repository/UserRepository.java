@@ -1,4 +1,4 @@
-package com.app.artisandor.repositories;
+package com.app.artisandor.repository;
 
 import com.app.artisandor.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
