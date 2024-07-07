@@ -28,6 +28,7 @@ import java.util.stream.Collectors;
 @Builder
 @ToString
 @Entity
+@Table(name = "\"user\"")
 public class User implements UserDetails {
 
     /**

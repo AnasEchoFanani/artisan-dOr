@@ -1,0 +1,28 @@
+spring:
+  application:
+    name: Artisan-dor
+  datasource:
+    url: jdbc:postgresql://postgres:5432/artisan
+    username: artisan
+    password: artisan
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+  mail:
+    host: smtp.example.com  # Replace with your SMTP server host
+    port: 587               # Replace with your SMTP server port
+    username: your-email@example.com
+    password: your-email-password
+    protocol: smtp
+    properties.mail.smtp:
+      auth: true
+      starttls.enable: true
+
+logging:
+  level:
+    org:
+      hibernate:
+        SQL: debug

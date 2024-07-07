@@ -1,0 +1,47 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:latest
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: artisan
+      POSTGRES_USER: artisan
+      POSTGRES_PASSWORD: artisan
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      - backend
+
+  artisan-dor:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8082"
+    depends_on:
+      - postgres
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/artisan
+      SPRING_DATASOURCE_USERNAME: artisan
+      SPRING_DATASOURCE_PASSWORD: artisan
+      SPRING_JPA_DATABASE-PLATFORM: org.hibernate.dialect.PostgreSQLDialect
+      SPRING_MAIL_HOST: smtp.example.com  # Replace with your SMTP server host
+      SPRING_MAIL_PORT: 587               # Replace with your SMTP server port
+      SPRING_MAIL_USERNAME: your-email@example.com
+      SPRING_MAIL_PASSWORD: your-email-password
+      SPRING_MAIL_PROTOCOL: smtp
+      SPRING_MAIL_PROPERTIES_MAIL_SMTP_AUTH: true
+      SPRING_MAIL_PROPERTIES_MAIL_SMTP_STARTTLS_ENABLE: true
+    networks:
+      - backend
+
+networks:
+  backend:
+    driver: bridge
+
+volumes:
+  pgdata:
+    driver: local
