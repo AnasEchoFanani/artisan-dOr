@@ -14,4 +14,9 @@ public enum Roles {
      * Represents an administrator user who has full access to all features and data.
      */
     ROLE_ADMIN,
+
+    /**
+     * Represents a user of the application.
+     */
+    ROLE_GUEST
 }
