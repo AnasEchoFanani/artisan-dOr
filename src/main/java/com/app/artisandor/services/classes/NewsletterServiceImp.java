@@ -4,63 +4,79 @@ import com.app.artisandor.entity.Newsletter;
 import com.app.artisandor.repository.NewsletterRepository;
 import com.app.artisandor.services.interfaces.NewsletterService;
 import jakarta.mail.MessagingException;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class NewsletterServiceImp implements NewsletterService {
+
+    private static final Logger logger = LoggerFactory.getLogger(NewsletterServiceImp.class);
 
     private final NewsletterRepository newsletterRepository;
     private final MailService mailService;
 
-    @Autowired
-    public NewsletterServiceImp(NewsletterRepository newsletterRepository, MailService mailService) {
-        this.newsletterRepository = newsletterRepository;
-        this.mailService = mailService;
-    }
-
     @Override
     public Page<Newsletter> getNewsletter(Pageable pageable) {
+        logger.info("Fetching newsletters with pageable: {}", pageable);
         return newsletterRepository.findAll(pageable);
     }
 
     @Override
     public Newsletter getNewsletterById(Long id) {
+        logger.info("Fetching newsletter with id: {}", id);
         return newsletterRepository.findById(id).orElse(null);
     }
 
     @Override
+    @Transactional
     public Newsletter saveNewsletter(Newsletter newsletter) {
+        logger.info("Saving newsletter: {}", newsletter);
         return newsletterRepository.save(newsletter);
     }
 
     @Override
+    @Transactional
     public void deleteNewsletterById(Long id) {
+        logger.info("Deleting newsletter with id: {}", id);
         newsletterRepository.deleteById(id);
     }
 
     @Override
     public boolean isNewsletterAlreadyExist(String email) {
+        logger.info("Checking if newsletter already exists for email: {}", email);
         return newsletterRepository.existsByEmail(email);
     }
 
     @Override
     public long getTotalNewsletterCount() {
+        logger.info("Getting total count of newsletters");
         return newsletterRepository.count();
     }
 
     @Override
     public String sendNewsletter(List<Newsletter> newsletters) {
+        logger.info("Sending newsletters to {} recipients", newsletters.size());
         for (Newsletter newsletter : newsletters) {
             try {
-                String htmlContent = "<html><body><h1>Newsletter</h1><p>This is the content of the newsletter.</p></body></html>";
-                mailService.sendEmail(newsletter.getEmail(), "Newsletter", htmlContent);
+                StringBuilder htmlContent = new StringBuilder();
+                htmlContent.append("<html>")
+                        .append("<body>")
+                        .append("<h1>Newsletter</h1>")
+                        .append("<p>This is the content of the newsletter.</p>")
+                        .append("</body>")
+                        .append("</html>");
+
+                mailService.sendEmail(newsletter.getEmail(), "Newsletter", htmlContent.toString());
             } catch (MessagingException e) {
-                e.printStackTrace();
+                logger.error("Error sending newsletter to {}", newsletter.getEmail(), e);
                 return "Error sending newsletters";
             }
         }
