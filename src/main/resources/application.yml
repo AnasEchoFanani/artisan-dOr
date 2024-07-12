@@ -2,9 +2,9 @@ spring:
   application:
     name: Artisan-dor
   datasource:
-    url: jdbc:postgresql://postgres:5432/artisan
-    username: artisan
-    password: artisan
+    url: jdbc:postgresql://dpg-cq8h4vmehbks738k20v0-a.frankfurt-postgres.render.com:5432/artisan
+    username: artisan_user
+    password: oLkHJfjnLngSyJeqCHE6rMBOVIA3nhNT
     driver-class-name: org.postgresql.Driver
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect

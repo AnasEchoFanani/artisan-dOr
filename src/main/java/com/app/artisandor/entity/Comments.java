@@ -12,13 +12,11 @@ import java.time.LocalDateTime;
  * It is annotated with JPA annotations to define its mapping to the database.
  * It also includes fields for comment text, stars, product, user, and timestamps.
  *
- * @author Anas FANANI
  * @version 1.0
  */
 @Entity
 @Getter
 @Setter
-@RequiredArgsConstructor
 public class Comments {
     /**
      * The unique identifier for each comment.
