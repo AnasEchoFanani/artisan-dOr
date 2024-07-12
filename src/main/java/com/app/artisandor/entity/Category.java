@@ -1,5 +1,6 @@
 package com.app.artisandor.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
@@ -11,7 +12,6 @@ import java.time.LocalDateTime;
  * Represents a category entity in the application.
  * This entity is mapped to a database table using JPA annotations.
  *
- * @author Anas FANANI
  * @version 1.0
  */
 @Entity
@@ -19,6 +19,7 @@ import java.time.LocalDateTime;
 @Setter
 @ToString
 @RequiredArgsConstructor
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Category {
 
     /**
@@ -37,20 +38,16 @@ public class Category {
     /**
      * The timestamp of when the category was created.
      * It is automatically set by the database when a new category is inserted.
-     *
-     * @Column(name = "created_at", nullable = false, updatable = false)
      */
     @CreatedDate
-    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
     /**
      * The timestamp of when the category was last modified.
      * It is automatically set by the database when a category is updated.
-     *
-     * @Column(name = "modified_at")
      */
     @LastModifiedDate
-    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "modified_at")
     private LocalDateTime modifiedAt;
 }
